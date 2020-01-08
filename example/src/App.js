@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 
-import ExampleComponent from 'frontend-friday-ui'
+import { Example } from 'frontend-friday-ui'
+import 'frontend-friday-ui/dist/index.es.css';
 
 export default class App extends Component {
   render () {
     return (
       <div>
-        <ExampleComponent text='Modern React component module' />
+        <Example>Modern React component module</Example>
       </div>
     )
   }

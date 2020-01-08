@@ -1,13 +1,5 @@
 module.exports = {
-  extends: '@vpdigital/eslint-config-react',
-  parser: 'babel-eslint',
-  env: {
-    browser: true,
-    jest: true,
-  },
-  plugins: [
-    'react-hooks',
-  ],
+  extends: 'react-app',
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
@@ -15,8 +7,6 @@ module.exports = {
       property: 'defaultProps',
       message: 'Specifying static properties such as defaultProps can break tree shaking. Use default parameter values instead. See http://es6-features.org/#DefaultParameterValues.',
     }],
-    'jsx-a11y/label-has-for': 0,
-    'react/jsx-props-no-spreading': 0,
     // Forbid the use of extraneous packages
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md
     'import/no-extraneous-dependencies': ['error', {
