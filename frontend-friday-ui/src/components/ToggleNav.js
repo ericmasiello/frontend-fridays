@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './ToggleNav.module.scss';
 
@@ -12,27 +12,59 @@ import styles from './ToggleNav.module.scss';
 
 */
 
+export const ToggleContext = createContext();
+
+// ToggleContext.Provider
+// ToggleContext.Consumer
+
 export function ToggleNav(props) {
+  const [ open, setOpen ] = useState(false);
+  const value = useMemo(() => ({ open, setOpen }), [open])
   const { children } = props;
   return (
-    <React.Fragment>
+    <ToggleContext.Provider value={value}>
       {children}
-    </React.Fragment>
+    </ToggleContext.Provider>
   )
 }
 
 export function ToggleButton(props) {
+  const { open, setOpen } = useContext(ToggleContext);
   const { children } = props;
-  return <button>{children}</button>;
+  return (
+    <button
+      onClick={() => { setOpen(!open)}}
+      className={styles['toggle-button']}
+    >
+      {children}
+    </button>
+  );
 }
 
 export function ToggleList(props) {
+  const { open } = useContext(ToggleContext);
   const { children } = props;
-  return <ul>{children}</ul>;
+
+  const style = {
+    display: open ? 'block' : 'none',
+  };
+
+  return (
+    <ul
+      className={styles['toggle-list']}
+      style={style}
+    >
+      {children}
+    </ul>
+  );
 }
 
 export function ToggleItem(props) {
   const { children } = props;
-  return <li>{children}</li>;
+  return (
+    <li>
+      {children}
+    </li>
+  );
 }
 

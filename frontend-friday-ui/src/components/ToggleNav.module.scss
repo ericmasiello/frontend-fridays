@@ -1,5 +1,16 @@
-.test {
-  padding: 1rem;
-  background-color: green;
-  color: white;
+.toggle-button {
+  font-size: 1rem;
+  line-height: 1.5;
+  border: 1px solid #c8cbcc;
+  padding: 0.4375rem 1rem;
+  min-width: 14.375rem;
+  border-radius: 0.1875rem;
+  text-align: left;
+}
+
+.toggle-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: none;
 }
