@@ -23,7 +23,9 @@ export function ToggleNav(props) {
   const { children } = props;
   return (
     <ToggleContext.Provider value={value}>
-      {children}
+      <div className={styles['toggle-nav']}>
+        {children}
+      </div>
     </ToggleContext.Provider>
   )
 }
@@ -60,11 +62,15 @@ export function ToggleList(props) {
 }
 
 export function ToggleItem(props) {
-  const { children } = props;
+  const { as: Component = 'li', ...rest } = props;
   return (
-    <li>
-      {children}
-    </li>
+    <Component className={styles['toggle-item']} {...rest} />
   );
 }
 
+export function ToggleLink(props) {
+  const { as: Component = 'a', ...rest } = props;
+  return (
+    <Component className={styles['toggle-link']} {...rest} />
+  );
+}
