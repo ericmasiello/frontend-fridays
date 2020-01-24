@@ -6,7 +6,7 @@ import { ToggleNav, ToggleButton, ToggleList, ToggleItem, ToggleLink } from './T
 storiesOf('ToggleNav', module)
   .addDecorator(withKnobs)
   .add('default', () => (
-    <div>
+    <>
       <ToggleNav>
         <ToggleButton>Home</ToggleButton>
         <ToggleList>
@@ -16,5 +16,6 @@ storiesOf('ToggleNav', module)
           <ToggleItem><ToggleLink as="button">Click me</ToggleLink></ToggleItem>
         </ToggleList>
       </ToggleNav>
-    </div>
+      <p>I should be covered up when the toggle list is visible</p>
+    </>
   ));
