@@ -10,10 +10,12 @@ storiesOf('ToggleNav', module)
       <ToggleNav>
         <ToggleButton>Home</ToggleButton>
         <ToggleList>
-          <ToggleItem><ToggleLink href="/">Home</ToggleLink></ToggleItem>
-          <ToggleItem><ToggleLink href="/settings">Settings</ToggleLink></ToggleItem>
-          <ToggleItem><ToggleLink href="/help">Help</ToggleLink></ToggleItem>
-          <ToggleItem><ToggleLink as="button">Click me</ToggleLink></ToggleItem>
+          <ToggleItem><ToggleLink href="#">Home</ToggleLink></ToggleItem>
+          <ToggleItem><ToggleLink href="#settings">Settings</ToggleLink></ToggleItem>
+          <ToggleItem><ToggleLink href="#help">Help</ToggleLink></ToggleItem>
+          <ToggleItem>
+            <ToggleLink as="button" onClick={() => alert('hi')}>Click me</ToggleLink>
+          </ToggleItem>
         </ToggleList>
       </ToggleNav>
       <p>I should be covered up when the toggle list is visible</p>

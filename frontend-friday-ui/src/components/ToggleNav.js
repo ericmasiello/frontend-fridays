@@ -1,6 +1,8 @@
-import React, { createContext, useState, useContext, useMemo } from 'react';
+import React, { createContext, useState, useContext, useMemo, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import styles from './ToggleNav.module.scss';
+
 
 /*
 <button>Home</button>
@@ -21,6 +23,22 @@ export function ToggleNav(props) {
   const [ open, setOpen ] = useState(false);
   const value = useMemo(() => ({ open, setOpen }), [open])
   const { children } = props;
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+  }, []);
+
+  // FIXME: Fix this behavior
+  // We want it to apply this behavior but don't want
+  // this behavior to happen when we click on the
+  // <ToggleButton /> element. How do we do this??
+  useEffect(() => {
+    window.addEventListener('click', handleClose);
+    return () => {
+      window.removeEventListener('click', handleClose)
+    }
+  }, [handleClose]);
+
   return (
     <ToggleContext.Provider value={value}>
       <div className={styles['toggle-nav']}>
@@ -33,10 +51,17 @@ export function ToggleNav(props) {
 export function ToggleButton(props) {
   const { open, setOpen } = useContext(ToggleContext);
   const { children } = props;
+
+  const classes = classNames(styles['toggle-button'], {
+    [styles['toggle-button--open']]: open
+  });
+
   return (
     <button
-      onClick={() => { setOpen(!open)}}
-      className={styles['toggle-button']}
+      onClick={() => {
+        setOpen(!open);
+      }}
+      className={classes}
     >
       {children}
     </button>
@@ -52,12 +77,14 @@ export function ToggleList(props) {
   };
 
   return (
-    <ul
-      className={styles['toggle-list']}
-      style={style}
-    >
-      {children}
-    </ul>
+    <div className={styles['toggle-list-wrapper']}>
+      <ul
+        className={styles['toggle-list']}
+        style={style}
+      >
+        {children}
+      </ul>
+    </div>
   );
 }
 
@@ -69,8 +96,21 @@ export function ToggleItem(props) {
 }
 
 export function ToggleLink(props) {
-  const { as: Component = 'a', ...rest } = props;
+  const { setOpen } = useContext(ToggleContext);
+  const { as: Component = 'a', onClick, ...rest } = props;
   return (
-    <Component className={styles['toggle-link']} {...rest} />
+    <Component
+      onClick={(event) => {
+        // FIXME: We need to put focus back on the <ToggleButton />
+        // once a user makes a selection below. How do we do that?
+        event.persist();
+        setOpen(false);
+        if (onClick) {
+          onClick(event);
+        }
+      }}
+      className={styles['toggle-link']}
+      {...rest}
+    />
   );
 }

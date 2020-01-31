@@ -12,12 +12,11 @@
   min-width: 14.375rem;
   border-radius: 0.1875rem;
   text-align: left;
+}
 
-  /* TODO: Fix this so it works when we lose focus on the button */
-  &:focus {
-    border-bottom-color: #F8F8F8;
-    border-radius: 0.1875rem 0.1875rem 0 0;
-  }
+.toggle-button--open {
+  border-bottom-color: #F8F8F8;
+  border-radius: 0.1875rem 0.1875rem 0 0;
 }
 
 .toggle-list {
@@ -28,6 +27,13 @@
   background-color: #fff;
   border: 1px solid #C8CBCC;
   border-top-width: 0;
+  position: absolute;
+  width: 100%;
+  top: -1px;
+}
+
+.toggle-list-wrapper {
+  position: relative;
 }
 
 .toggle-item {
