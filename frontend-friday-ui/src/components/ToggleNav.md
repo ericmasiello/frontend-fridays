@@ -12,11 +12,7 @@ background: linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0, rgba(0, 17, 26
 border-color: #aeb2b3;
 ```
 
-- Add prop type validation
 - Write some tests
-- When clicking a link, should close the menu
-- When clicking outside the open menu, should close the menu
-- When clicking on a menu item, should put focus back on the menu button
 - Add something so that current selected value is known when tabbing to the button
 - Update the button text with the appropriate value
 - Create desktop styles for tabs

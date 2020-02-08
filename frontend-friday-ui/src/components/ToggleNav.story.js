@@ -8,7 +8,7 @@ storiesOf('ToggleNav', module)
   .add('default', () => (
     <>
       <ToggleNav>
-        <ToggleButton>Home</ToggleButton>
+        <ToggleButton className="foo" data-test="something">Home</ToggleButton>
         <ToggleList>
           <ToggleItem><ToggleLink href="#">Home</ToggleLink></ToggleItem>
           <ToggleItem><ToggleLink href="#settings">Settings</ToggleLink></ToggleItem>
