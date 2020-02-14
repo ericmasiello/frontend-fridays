@@ -15,6 +15,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  &:hover,
+  &:focus {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.025) 0,
+        rgba(0, 17, 26, 0.05) 100%
+      ),
+      #fff;
+  }
 }
 
 .toggle-button::after {
@@ -28,7 +39,7 @@
 }
 
 .toggle-button--open {
-  border-bottom-color: #F8F8F8;
+  border-bottom-color: #f8f8f8;
   border-radius: 0.1875rem 0.1875rem 0 0;
 }
 
@@ -38,11 +49,23 @@
   margin: 0;
   display: none;
   background-color: #fff;
-  border: 1px solid #C8CBCC;
+  border-style: solid;
+  border-color: #c8cbcc;
+  border-width: 0 1px 1px 1px;
   border-top-width: 0;
   position: absolute;
   width: 100%;
   top: -1px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+    top: 0;
+    height: 1px;
+    background-color: #c8cbcc;
+  }
 }
 
 .toggle-list-wrapper {
