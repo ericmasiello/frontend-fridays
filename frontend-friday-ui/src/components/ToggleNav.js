@@ -55,6 +55,7 @@ export function ToggleButton(props) {
 
   return (
     <button
+      aria-expanded={open}
       ref={buttonRef}
       onClick={(event) => {
         event.stopPropagation();
