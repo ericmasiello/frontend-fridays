@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styles from './ToggleNav.module.scss';
 
-
 /*
 <button>Home</button>
 <ul>
@@ -14,7 +13,11 @@ import styles from './ToggleNav.module.scss';
 
 */
 
-export const ToggleContext = createContext();
+export const ToggleContext = createContext({
+  open: false,
+  setOpen: () => {},
+  buttonRef: React.createRef(),
+});
 
 // ToggleContext.Provider
 // ToggleContext.Consumer
