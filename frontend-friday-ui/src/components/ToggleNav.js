@@ -62,6 +62,7 @@ export function ToggleButton(props) {
         setOpen(!open);
       }}
       className={classes}
+      data-test="toggle-button"
       {...rest}
     />
   );
