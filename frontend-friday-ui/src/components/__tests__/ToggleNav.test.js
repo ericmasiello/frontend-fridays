@@ -33,9 +33,9 @@ it('should set the aria expanded to true when clicking the button', () => {
     </ToggleNav>
   );
 
-  wrapper.find('[data-test="toggle-button"]').simulate('click');
+  wrapper.find('[data-test="ToggleButton-button"]').simulate('click');
 
-  expect(wrapper.find('[data-test="toggle-button"]').props()['aria-expanded']).toBe(true);
+  expect(wrapper.find('[data-test="ToggleButton-button"]').props()['aria-expanded']).toBe(true);
 })
 
 it('should add an open className when clicked', () => {
@@ -49,7 +49,112 @@ it('should add an open className when clicked', () => {
     </ToggleNav>
   );
 
-  wrapper.find('[data-test="toggle-button"]').simulate('click');
+  wrapper.find('[data-test="ToggleButton-button"]').simulate('click');
 
-  expect(wrapper.find('[data-test="toggle-button"]').hasClass('toggle-button--open')).toBe(true);
+  expect(wrapper.find('[data-test="ToggleButton-button"]').hasClass('toggle-button--open')).toBe(true);
 })
+
+/*
+ToggleNav,
+  ToggleButton,
+  ToggleList,
+  ToggleItem,
+  ToggleLink
+*/
+
+describe('ToggleNav', () => {
+
+  // function Bar(props) {
+  //   return <div>Bar!</div>
+  // }
+
+  function Foo(props) {
+    return(
+      <section>
+        <h1>Foo!</h1>
+      </section>
+    )
+  }
+
+  it('should render as a <div /> by default',() => {
+    const wrapper = mount(<ToggleNav />);
+
+    expect(wrapper.find('ToggleNav').children().type()).toEqual('div');
+  });
+
+  it('should render as a custom component',() => {
+    const wrapper = mount(<ToggleNav as="span" />);
+
+    expect(wrapper.find('ToggleNav').children().type()).toEqual('span');
+  });
+
+  it('should be able to pass a custom className',() => {
+    const wrapper = mount(<ToggleNav className="foo" />);
+
+    expect(wrapper.find('ToggleNav').children().hasClass('foo')).toBe(true);
+  });
+
+  it('should be able to pass arbitrary props',() => {
+    const wrapper = mount(<ToggleNav data-foo="true" />);
+
+    expect(wrapper.find('ToggleNav').children('div[data-foo="true"]')).toHaveLength(1)
+  });
+})
+
+describe('ToggleList', () => {
+  it('should be hidden by default',() => {
+    const wrapper = mount(
+      <ToggleNav>
+        <ToggleButton>Hello</ToggleButton>
+        <ToggleList>
+          <ToggleItem><ToggleLink>Value 1</ToggleLink></ToggleItem>
+          <ToggleItem><ToggleLink>Value 2</ToggleLink></ToggleItem>
+        </ToggleList>
+      </ToggleNav>
+    );
+
+    const listWrapper = wrapper.find('[data-test="ToggleList-ul"]');
+
+    expect(listWrapper.props()['style'].display).toEqual('none');
+  });
+
+  it('should be visible after clicking the <ToggleButton />',() => {
+    const wrapper = mount(
+      <ToggleNav>
+        <ToggleButton>Hello</ToggleButton>
+        <ToggleList>
+          <ToggleItem><ToggleLink>Value 1</ToggleLink></ToggleItem>
+          <ToggleItem><ToggleLink>Value 2</ToggleLink></ToggleItem>
+        </ToggleList>
+      </ToggleNav>
+    );
+
+    wrapper.find('[data-test="ToggleButton-button"]').simulate('click')
+
+    const listWrapper = wrapper.find('[data-test="ToggleList-ul"]');
+
+    expect(listWrapper.props()['style'].display).not.toEqual('none');
+  });
+})
+
+describe('ToggleLink', () => {
+  it('should support passing a custom `onClick` handler',() => {
+
+    const fn = jest.fn();
+
+    const wrapper = mount(
+      <ToggleNav>
+        <ToggleButton>Hello</ToggleButton>
+        <ToggleList>
+          <ToggleItem>
+            <ToggleLink onClick={fn}>Value 1</ToggleLink>
+          </ToggleItem>
+        </ToggleList>
+      </ToggleNav>
+    );
+
+    wrapper.find('[data-test="ToggleLink-component"]').simulate('click');
+
+    expect(fn).toHaveBeenCalled();
+  });
+});

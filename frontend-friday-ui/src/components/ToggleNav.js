@@ -26,7 +26,9 @@ export function ToggleNav(props) {
   const [ open, setOpen ] = useState(false);
   const buttonRef = useRef();
   const value = useMemo(() => ({ open, setOpen, buttonRef }), [open])
-  const { children } = props;
+  const { children, as: Component = 'div', className, ...rest } = props;
+
+  const classes = classNames(styles['toggle-nav'], className)
 
   const handleClose = useCallback(() => {
     setOpen(false);
@@ -41,9 +43,9 @@ export function ToggleNav(props) {
 
   return (
     <ToggleContext.Provider value={value}>
-      <div className={styles['toggle-nav']}>
+      <Component className={classes} {...rest}>
         {children}
-      </div>
+      </Component>
     </ToggleContext.Provider>
   )
 }
@@ -65,7 +67,7 @@ export function ToggleButton(props) {
         setOpen(!open);
       }}
       className={classes}
-      data-test="toggle-button"
+      data-test="ToggleButton-button"
       {...rest}
     />
   );
@@ -82,6 +84,7 @@ export function ToggleList(props) {
   return (
     <div className={styles['toggle-list-wrapper']}>
       <ul
+        data-test="ToggleList-ul"
         className={styles['toggle-list']}
         style={style}
       >
@@ -115,6 +118,7 @@ export function ToggleLink(props) {
         }
       }}
       className={styles['toggle-link']}
+      data-test="ToggleLink-component"
       {...rest}
     />
   );
