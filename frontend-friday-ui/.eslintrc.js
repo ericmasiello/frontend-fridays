@@ -1,6 +1,26 @@
-module.exports = {
-  extends: 'react-app',
+/* eslint-disable import/no-extraneous-dependencies */
+const config = require('eslint-config-react-app')
+
+const strictConfig = {
+  ...config,
+  rules: Object.keys(config.rules).reduce((acc, key) => {
+    let value = config.rules[key];
+    if (value === 'warn') {
+      value = 'error';
+    }
+    if (Array.isArray(value) && value.length === 2) {
+      value = ['error', value[1]];
+    }
+    acc[key] = value;
+    return acc;
+  }, {})
+}
+
+const finalConfig = {
+  // extends: 'react-app',
+  ...strictConfig,
   rules: {
+    ...strictConfig.rules,
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
     'no-restricted-properties': [2, {
@@ -29,3 +49,5 @@ module.exports = {
     }],
   },
 };
+
+module.exports = finalConfig;
