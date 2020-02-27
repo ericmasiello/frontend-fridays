@@ -64,18 +64,6 @@ ToggleNav,
 
 describe('ToggleNav', () => {
 
-  // function Bar(props) {
-  //   return <div>Bar!</div>
-  // }
-
-  function Foo(props) {
-    return(
-      <section>
-        <h1>Foo!</h1>
-      </section>
-    )
-  }
-
   it('should render as a <div /> by default',() => {
     const wrapper = mount(<ToggleNav />);
 
