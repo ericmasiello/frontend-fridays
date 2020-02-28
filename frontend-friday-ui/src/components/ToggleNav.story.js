@@ -62,4 +62,14 @@ storiesOf('ToggleNav', module)
       <ToggleGetProps autoClose={false} />
     </ToggleProvider>
   ))
+  .add('initialValue', () => (
+     <ToggleNav defaultOpen>
+      <ToggleButton>Home</ToggleButton>
+      <ToggleList>
+        <ToggleItem><ToggleLink href="#">Home</ToggleLink></ToggleItem>
+        <ToggleItem><ToggleLink href="#settings">Settings</ToggleLink></ToggleItem>
+        <ToggleItem><ToggleLink href="#help">Help</ToggleLink></ToggleItem>
+      </ToggleList>
+    </ToggleNav>
+  ))
   ));

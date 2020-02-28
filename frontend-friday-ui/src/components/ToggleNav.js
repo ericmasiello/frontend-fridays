@@ -80,24 +80,30 @@ export function useToggleNav({ autoClose = true } = {}) {
 // ToggleContext.Consumer
 
 export function ToggleProvider(props) {
-  const [ open, setOpen ] = useState(false);
+  const { defaultOpen, children } = props;
+  const [ open, setOpen ] = useState(!!defaultOpen);
   const buttonRef = useRef();
   const value = useMemo(() => ({ open, setOpen, buttonRef }), [open])
 
   return (
     <ToggleContext.Provider value={value}>
-      {props.children}
+      {children}
     </ToggleContext.Provider>
   );
 }
 
 export function ToggleNav(props) {
-  useToggleAutoCloseEvent();
-  const { children, as: Component = 'div', className, ...rest } = props;
-  const classes = classNames(styles['toggle-nav'], className)
+  const {
+    children,
+    as: Component = 'div',
+    className,
+    defaultOpen,
+    ...rest
+  } = props;
+  const classes = classNames(styles['toggle-nav'], className);
 
   return (
-    <ToggleProvider>
+    <ToggleProvider defaultOpen={defaultOpen}>
       <Component
         className={classes} {...rest}
         data-test="ToggleNav"
