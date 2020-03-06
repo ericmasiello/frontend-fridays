@@ -72,4 +72,6 @@ storiesOf('ToggleNav', module)
       </ToggleList>
     </ToggleNav>
   ))
+  .add('controlled component', () => (
+    <div />
   ));
