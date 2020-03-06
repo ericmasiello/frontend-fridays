@@ -19,16 +19,21 @@ export const ToggleContext = createContext({
   buttonRef: React.createRef(),
 });
 
-// ToggleContext.Provider
-// ToggleContext.Consumer
+export function useToggleNav() {
+  const value = useContext(ToggleContext);
 
-export function ToggleNav(props) {
+  return {
+    open: value.open,
+    setOpen: value.setOpen,
+    buttonProps: () => ({}),
+    itemProps: () => ({}),
+  };
+}
+
+export function ToggleProvider(props) {
   const [ open, setOpen ] = useState(false);
   const buttonRef = useRef();
-  const value = useMemo(() => ({ open, setOpen, buttonRef }), [open])
-  const { children, as: Component = 'div', className, ...rest } = props;
-
-  const classes = classNames(styles['toggle-nav'], className)
+  const value = useMemo(() => ({ open, setOpen, buttonRef }), [open]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
@@ -43,10 +48,24 @@ export function ToggleNav(props) {
 
   return (
     <ToggleContext.Provider value={value}>
+      {props.children}
+    </ToggleContext.Provider>
+  )
+}
+
+// ToggleContext.Provider
+// ToggleContext.Consumer
+
+export function ToggleNav(props) {
+  const { children, as: Component = 'div', className, ...rest } = props;
+  const classes = classNames(styles['toggle-nav'], className)
+
+  return (
+    <ToggleProvider>
       <Component className={classes} {...rest}>
         {children}
       </Component>
-    </ToggleContext.Provider>
+    </ToggleProvider>
   )
 }
 
