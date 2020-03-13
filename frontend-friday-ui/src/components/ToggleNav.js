@@ -13,42 +13,78 @@ import styles from './ToggleNav.module.scss';
 
 */
 
+const callInOrder = (...fns) => {
+  return (...args) => {
+    fns.forEach(fn => {
+      if (fn) {
+        fn(...args);
+      }
+    })
+  }
+}
+
 export const ToggleContext = createContext({
   open: false,
   setOpen: () => {},
   buttonRef: React.createRef(),
 });
 
-export function useToggleNav() {
-  const value = useContext(ToggleContext);
+export function useToggleNav(config) {
+  const { open, setOpen, buttonRef, autoClose } = useContext(ToggleContext);
+  let { enableAutoClose = true } = config || {};
 
-  return {
-    open: value.open,
-    setOpen: value.setOpen,
-    buttonProps: () => ({}),
-    itemProps: () => ({}),
-  };
-}
-
-export function ToggleProvider(props) {
-  const [ open, setOpen ] = useState(false);
-  const buttonRef = useRef();
-  const value = useMemo(() => ({ open, setOpen, buttonRef }), [open]);
+  enableAutoClose = typeof autoClose === 'boolean' ? autoClose : enableAutoClose;
 
   const handleClose = useCallback(() => {
     setOpen(false);
-  }, []);
+  }, [setOpen]);
 
   useEffect(() => {
-    window.addEventListener('click', handleClose);
-    return () => {
-      window.removeEventListener('click', handleClose)
+    if (enableAutoClose) {
+      window.addEventListener('click', handleClose);
+      return () => {
+        window.removeEventListener('click', handleClose)
+      }
     }
-  }, [handleClose]);
+  }, [handleClose, enableAutoClose]);
+
+  return useMemo(() => ({
+    open: open,
+    setOpen: setOpen,
+    buttonProps: (customProps = {}) => {
+      const { onClick, ...rest } = customProps;
+      return {
+        'aria-expanded': open,
+        ref: buttonRef,
+        onClick: callInOrder((event) => {
+          event.stopPropagation();
+          setOpen(!open);
+        }, onClick),
+        ...rest,
+      };
+    },
+    itemProps: (customProps = {}) => {
+      const { onClick, ...rest } = customProps;
+      return {
+        onClick: callInOrder((event) => {
+          setOpen(false);
+          buttonRef.current.focus();
+        }, onClick),
+        ...rest,
+      };
+    },
+  }), [open, setOpen, buttonRef]);
+}
+
+export function ToggleProvider(props) {
+  const { children, autoClose = true } = props;
+  const [ open, setOpen ] = useState(false);
+  const buttonRef = useRef();
+  const value = useMemo(() => ({ open, setOpen, buttonRef, autoClose }), [open, autoClose]);
 
   return (
     <ToggleContext.Provider value={value}>
-      {props.children}
+      {children}
     </ToggleContext.Provider>
   )
 }
@@ -57,11 +93,11 @@ export function ToggleProvider(props) {
 // ToggleContext.Consumer
 
 export function ToggleNav(props) {
-  const { children, as: Component = 'div', className, ...rest } = props;
+  const { children, as: Component = 'div', className, autoClose, ...rest } = props;
   const classes = classNames(styles['toggle-nav'], className)
 
   return (
-    <ToggleProvider>
+    <ToggleProvider autoClose={autoClose}>
       <Component className={classes} {...rest}>
         {children}
       </Component>
@@ -70,7 +106,7 @@ export function ToggleNav(props) {
 }
 
 export function ToggleButton(props) {
-  const { open, setOpen, buttonRef } = useContext(ToggleContext);
+  const { open, buttonProps } = useToggleNav(ToggleContext);
   const { className, ...rest } = props;
 
   const classes = classNames(styles['toggle-button'], {
@@ -79,21 +115,17 @@ export function ToggleButton(props) {
 
   return (
     <button
-      aria-expanded={open}
-      ref={buttonRef}
-      onClick={(event) => {
-        event.stopPropagation();
-        setOpen(!open);
-      }}
-      className={classes}
-      data-test="ToggleButton-button"
-      {...rest}
+      {...buttonProps({
+        className: classes,
+        'data-test': 'ToggleButton-button',
+        ...rest
+      })}
     />
   );
 }
 
 export function ToggleList(props) {
-  const { open } = useContext(ToggleContext);
+  const { open } = useToggleNav(ToggleContext);
   const { children } = props;
 
   const style = {
@@ -125,20 +157,15 @@ ToggleItem.propTypes = {
 }
 
 export function ToggleLink(props) {
-  const { buttonRef } = useContext(ToggleContext);
-  const { as: Component = 'a', onClick, ...rest } = props;
+  const { itemProps } = useToggleNav(ToggleContext);
+  const { as: Component = 'a', ...rest } = props;
   return (
     <Component
-      onClick={(event) => {
-        event.persist();
-        buttonRef.current.focus();
-        if (onClick) {
-          onClick(event);
-        }
-      }}
-      className={styles['toggle-link']}
-      data-test="ToggleLink-component"
-      {...rest}
+      {...itemProps({
+        className: styles['toggle-link'],
+        'data-test': 'ToggleLink-component',
+        ...rest,
+      })}
     />
   );
 }

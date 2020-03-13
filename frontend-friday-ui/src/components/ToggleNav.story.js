@@ -4,7 +4,7 @@ import { withKnobs } from '@storybook/addon-knobs';
 import { ToggleNav, ToggleButton, ToggleList, ToggleItem, ToggleLink, ToggleProvider, useToggleNav } from './ToggleNav';
 
 function PropGetterDemo() {
-  const { open, setOpen, buttonProps, itemProps } = useToggleNav();
+  const { open, buttonProps, itemProps } = useToggleNav({ enableAutoClose: false});
 
   /*
     TODO:
@@ -16,12 +16,20 @@ function PropGetterDemo() {
     3. we need to make sure window onclick function doesn't
     get triggered when we click the button.
 
+    4. Can we refactor our existing components to use our propGetters?
+
     BONUS: Can we make the window onclick behavior optional?
     BONUS: Could the configurable autoclose behavior be extended to <ToggleNav />?
   */
   return (
     <div>
-      <button onClick={() => setOpen(!open)} {...buttonProps()}>Click me!</button>
+      <button
+        {...buttonProps({
+          onClick(event) { console.log('hi', event) }
+        })}
+      >
+        Click me!
+      </button>
       {open && (
         <ul>
           <li>
@@ -44,7 +52,7 @@ storiesOf('ToggleNav', module)
   .addDecorator(withKnobs)
   .add('default', () => (
     <div>
-      <ToggleNav>
+      <ToggleNav autoClose>
         <ToggleButton className="foo" data-test="something">Home</ToggleButton>
         <ToggleList>
           <ToggleItem><ToggleLink href="#">Home</ToggleLink></ToggleItem>
