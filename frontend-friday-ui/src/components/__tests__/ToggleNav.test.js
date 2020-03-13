@@ -67,25 +67,25 @@ describe('ToggleNav', () => {
   it('should render as a <div /> by default',() => {
     const wrapper = mount(<ToggleNav />);
 
-    expect(wrapper.find('ToggleNav').children().type()).toEqual('div');
+    expect(wrapper.find('[data-test="ToggleNavComponent"]').type()).toEqual('div');
   });
 
   it('should render as a custom component',() => {
     const wrapper = mount(<ToggleNav as="span" />);
 
-    expect(wrapper.find('ToggleNav').children().type()).toEqual('span');
+    expect(wrapper.find('[data-test="ToggleNavComponent"]').type()).toEqual('span');
   });
 
   it('should be able to pass a custom className',() => {
     const wrapper = mount(<ToggleNav className="foo" />);
 
-    expect(wrapper.find('ToggleNav').children().hasClass('foo')).toBe(true);
+    expect(wrapper.find('[data-test="ToggleNavComponent"]').hasClass('foo')).toBe(true);
   });
 
   it('should be able to pass arbitrary props',() => {
     const wrapper = mount(<ToggleNav data-foo="true" />);
 
-    expect(wrapper.find('ToggleNav').children('div[data-foo="true"]')).toHaveLength(1)
+    expect(wrapper.find('[data-test="ToggleNavComponent"][data-foo="true"]')).toHaveLength(1);
   });
 })
 

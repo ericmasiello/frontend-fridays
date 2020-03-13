@@ -4,26 +4,32 @@ import { withKnobs } from '@storybook/addon-knobs';
 import { ToggleNav, ToggleButton, ToggleList, ToggleItem, ToggleLink, ToggleProvider, useToggleNav } from './ToggleNav';
 
 function PropGetterDemo() {
-  const { open, setOpen, buttonProps, itemProps } = useToggleNav();
+  const { open, buttonProps, itemProps } = useToggleNav({
+    enableAutoClose: false,
+  });
 
   /*
     TODO:
-    1. Our tests busted. Can we fix them?
 
-    2. The behavior for the button to toggle open state
-    should be handled for us by the buttonProps() prop getter.
+    1. Dogfood our itemProps() getter within the ToggleLink
+    2. Can we make the ToggleNav component support enable/disabling the auto close functionality?
+    3. Because multiple Components (i.e.) ToggleButton, ToggleLink
+      are using the useToggleNav() hook, how do we make sure we don't invoke
+      our  window.addEventListener multiple times?
+    4. Can we generalize a pattern for our onClick handlers calling custom
+      onClick handlers?
+    5. Are there any optimizations we should add to our useToggleNav component?
 
-    3. we need to make sure window onclick function doesn't
-    get triggered when we click the button.
-
-    4. Can we refactor our existing components to use our propGetters?
-
-    BONUS: Can we make the window onclick behavior optional?
-    BONUS: Could the configurable autoclose behavior be extended to <ToggleNav />?
   */
   return (
     <div>
-      <button onClick={() => setOpen(!open)} {...buttonProps()}>Click me!</button>
+      <button {...buttonProps({
+        onClick(){
+          console.log('Custom buttonProps onClick!')
+        },
+        className: 'foo',
+        'data-rebecca': 'rebecca'
+      })}>Click me!</button>
       {open && (
         <ul>
           <li>

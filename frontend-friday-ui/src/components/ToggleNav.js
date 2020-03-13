@@ -19,14 +19,60 @@ export const ToggleContext = createContext({
   buttonRef: React.createRef(),
 });
 
-export function useToggleNav() {
-  const value = useContext(ToggleContext);
+export function useToggleNav(config) {
+  const { open, setOpen, buttonRef } = useContext(ToggleContext);
+  const { enableAutoClose = true  } = config || {};
+
+  // code here to disable the damn thing./...
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
+
+  useEffect(() => {
+    if (!enableAutoClose) {
+      return;
+    }
+    window.addEventListener('click', handleClose);
+    return () => {
+      window.removeEventListener('click', handleClose)
+    }
+  }, [handleClose, enableAutoClose]);
 
   return {
-    open: value.open,
-    setOpen: value.setOpen,
-    buttonProps: () => ({}),
-    itemProps: () => ({}),
+    open,
+    setOpen,
+    buttonProps: (customProps) => {
+      const { onClick, ...rest } = customProps || {};
+      return {
+        'aria-expanded': open,
+        ref: buttonRef,
+        onClick(event) {
+          event.persist();
+          event.stopPropagation();
+          setOpen(!open);
+          if (onClick) {
+            onClick(event);
+          }
+        },
+        ...rest
+      };
+    },
+    itemProps: (customProps) => {
+      const { onClick, ...rest } = customProps || {};
+      return {
+        onClick(event) {
+          event.persist();
+          setOpen(false);
+          // setOpen(false);
+          buttonRef.current.focus();
+          if (onClick) {
+            onClick(event);
+          }
+        },
+        ...rest,
+      }
+    },
   };
 }
 
@@ -34,17 +80,6 @@ export function ToggleProvider(props) {
   const [ open, setOpen ] = useState(false);
   const buttonRef = useRef();
   const value = useMemo(() => ({ open, setOpen, buttonRef }), [open]);
-
-  const handleClose = useCallback(() => {
-    setOpen(false);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('click', handleClose);
-    return () => {
-      window.removeEventListener('click', handleClose)
-    }
-  }, [handleClose]);
 
   return (
     <ToggleContext.Provider value={value}>
@@ -62,7 +97,11 @@ export function ToggleNav(props) {
 
   return (
     <ToggleProvider>
-      <Component className={classes} {...rest}>
+      <Component
+        data-test="ToggleNavComponent"
+        className={classes}
+        {...rest}
+      >
         {children}
       </Component>
     </ToggleProvider>
@@ -70,7 +109,7 @@ export function ToggleNav(props) {
 }
 
 export function ToggleButton(props) {
-  const { open, setOpen, buttonRef } = useContext(ToggleContext);
+  const { open, buttonProps } = useToggleNav();
   const { className, ...rest } = props;
 
   const classes = classNames(styles['toggle-button'], {
@@ -79,15 +118,11 @@ export function ToggleButton(props) {
 
   return (
     <button
-      aria-expanded={open}
-      ref={buttonRef}
-      onClick={(event) => {
-        event.stopPropagation();
-        setOpen(!open);
-      }}
-      className={classes}
-      data-test="ToggleButton-button"
-      {...rest}
+      {...buttonProps({
+        className: classes,
+        'data-test': 'ToggleButton-button',
+        ...rest,
+      })}
     />
   );
 }
