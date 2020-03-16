@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styles from './ToggleNav.module.scss';
 
-/*
-<button>Home</button>
-<ul>
-  <li><a href="/">Home</a></li>
-  <li><a href="/settings">Settings</a></li>
-  <li><a href="/help">Help</a></li>
-</ul>
-
-*/
+const callFnsInOrder = (...fns) => {
+  return (event) => {
+    fns.forEach((fn) => {
+      if (!fn) {
+        return;
+      }
+      fn(event);
+    });
+  }
+}
 
 export const ToggleContext = createContext({
   open: false,
@@ -20,17 +21,19 @@ export const ToggleContext = createContext({
 });
 
 export function useToggleNav(config) {
-  const { open, setOpen, buttonRef } = useContext(ToggleContext);
-  const { enableAutoClose = true  } = config || {};
+  const { open, setOpen, buttonRef, autoClose = true } = useContext(ToggleContext);
+  let { enableAutoClose  } = config || {};
 
-  // code here to disable the damn thing./...
+  enableAutoClose = typeof enableAutoClose === 'boolean'
+    ? enableAutoClose
+    : autoClose;
 
   const handleClose = useCallback(() => {
     setOpen(false);
   }, [setOpen]);
 
   useEffect(() => {
-    if (!enableAutoClose) {
+    if (enableAutoClose === false) {
       return;
     }
     window.addEventListener('click', handleClose);
@@ -39,7 +42,10 @@ export function useToggleNav(config) {
     }
   }, [handleClose, enableAutoClose]);
 
-  return {
+  // Is this memoization necessary?
+  // I would likely want to test this in a few scenerios before
+  // blindly adding memoziation code
+  const toggleNavData = useMemo(() => ({
     open,
     setOpen,
     buttonProps: (customProps) => {
@@ -47,43 +53,42 @@ export function useToggleNav(config) {
       return {
         'aria-expanded': open,
         ref: buttonRef,
-        onClick(event) {
-          event.persist();
+        onClick: callFnsInOrder((event) => {
           event.stopPropagation();
           setOpen(!open);
-          if (onClick) {
-            onClick(event);
-          }
-        },
+        }, onClick),
         ...rest
       };
     },
     itemProps: (customProps) => {
       const { onClick, ...rest } = customProps || {};
       return {
-        onClick(event) {
-          event.persist();
+        onClick: callFnsInOrder(() => {
           setOpen(false);
-          // setOpen(false);
           buttonRef.current.focus();
-          if (onClick) {
-            onClick(event);
-          }
-        },
+        }, onClick),
         ...rest,
       }
     },
-  };
+  }), [buttonRef, open, setOpen])
+
+  return toggleNavData;
 }
 
 export function ToggleProvider(props) {
+  const { autoClose, children } = props;
   const [ open, setOpen ] = useState(false);
   const buttonRef = useRef();
-  const value = useMemo(() => ({ open, setOpen, buttonRef }), [open]);
+  const value = useMemo(() => ({
+    open,
+    setOpen,
+    buttonRef,
+    autoClose
+  }), [open, autoClose]);
 
   return (
     <ToggleContext.Provider value={value}>
-      {props.children}
+      {children}
     </ToggleContext.Provider>
   )
 }
@@ -92,11 +97,11 @@ export function ToggleProvider(props) {
 // ToggleContext.Consumer
 
 export function ToggleNav(props) {
-  const { children, as: Component = 'div', className, ...rest } = props;
+  const { children, as: Component = 'div', className, autoClose = true, ...rest } = props;
   const classes = classNames(styles['toggle-nav'], className)
 
   return (
-    <ToggleProvider>
+    <ToggleProvider autoClose={autoClose}>
       <Component
         data-test="ToggleNavComponent"
         className={classes}
@@ -160,20 +165,17 @@ ToggleItem.propTypes = {
 }
 
 export function ToggleLink(props) {
-  const { buttonRef } = useContext(ToggleContext);
+  const { itemProps } = useToggleNav({
+    enableAutoClose: false,
+  });
   const { as: Component = 'a', onClick, ...rest } = props;
   return (
     <Component
-      onClick={(event) => {
-        event.persist();
-        buttonRef.current.focus();
-        if (onClick) {
-          onClick(event);
-        }
-      }}
-      className={styles['toggle-link']}
-      data-test="ToggleLink-component"
-      {...rest}
+      {...itemProps({
+        className: styles['toggle-link'],
+        'data-test': 'ToggleLink-component',
+        ...rest,
+      })}
     />
   );
 }

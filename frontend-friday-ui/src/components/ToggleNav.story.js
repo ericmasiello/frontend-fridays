@@ -10,16 +10,7 @@ function PropGetterDemo() {
 
   /*
     TODO:
-
-    1. Dogfood our itemProps() getter within the ToggleLink
-    2. Can we make the ToggleNav component support enable/disabling the auto close functionality?
-    3. Because multiple Components (i.e.) ToggleButton, ToggleLink
-      are using the useToggleNav() hook, how do we make sure we don't invoke
-      our  window.addEventListener multiple times?
-    4. Can we generalize a pattern for our onClick handlers calling custom
-      onClick handlers?
-    5. Are there any optimizations we should add to our useToggleNav component?
-
+    Make this thing responsive! Design the tabs!
   */
   return (
     <div>
