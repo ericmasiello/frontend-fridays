@@ -1,0 +1,24 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "MarkPro", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5625;
+}
+
+img {
+  max-width: 100%;
+}
+
+textarea {
+  overflow: auto;
+  resize: vertical;
+}

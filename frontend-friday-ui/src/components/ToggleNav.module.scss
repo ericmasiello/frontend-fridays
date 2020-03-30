@@ -1,0 +1,117 @@
+$desktop-breakpoint: 43.75rem;
+
+.toggle-nav {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.toggle-button {
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  border: 1px solid #c8cbcc;
+  padding: 0.4375rem 1rem;
+  min-width: 14.375rem;
+  border-radius: 0.1875rem;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:hover,
+  &:focus {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.025) 0,
+        rgba(0, 17, 26, 0.05) 100%
+      ),
+      #fff;
+  }
+
+  @media (min-width: $desktop-breakpoint) {
+    display: none;
+  }
+}
+
+.toggle-button::after {
+  content: '';
+  background-image: url('../images/chevron.svg');
+  background-repeat: no-repeat;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: inline-block;
+  transform: rotate(90deg);
+}
+
+.toggle-button--open {
+  border-bottom-color: #f8f8f8;
+  border-radius: 0.1875rem 0.1875rem 0 0;
+}
+
+.toggle-list {
+  display: var(--toggle-list-display, none);
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  border-style: solid;
+  border-color: #c8cbcc;
+  border-width: 0 1px 1px 1px;
+  border-top-width: 0;
+  position: absolute;
+  width: 100%;
+  top: -1px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+    top: 0;
+    height: 1px;
+    background-color: #c8cbcc;
+  }
+
+  @media (min-width: $desktop-breakpoint) {
+    display: flex;
+    position: static;
+    border: none;
+    background-color: transparent;
+
+    &::before {
+      content: none;
+    }
+  }
+}
+
+.toggle-list-wrapper {
+  position: relative;
+}
+
+.toggle-link {
+  color: #1061e3;
+  line-height: 1.5;
+  text-decoration: none;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: block;
+  // handles case when toggle-link is rendered as a button
+  font-family: inherit;
+  font-size: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @media (min-width: $desktop-breakpoint) {
+
+    padding-bottom: 1.625rem;
+
+    &[aria-current="true"] {
+      border-bottom: 2px #1061e3 solid;
+    }
+  }
+}
