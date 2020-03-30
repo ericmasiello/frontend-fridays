@@ -47,7 +47,7 @@ storiesOf('ToggleNav', module)
         <ToggleButton className="foo" data-test="something">Home</ToggleButton>
         <ToggleList>
           <ToggleItem><ToggleLink href="#">Home</ToggleLink></ToggleItem>
-          <ToggleItem><ToggleLink href="#settings">Settings</ToggleLink></ToggleItem>
+          <ToggleItem><ToggleLink href="#settings" aria-current={true}>Settings</ToggleLink></ToggleItem>
           <ToggleItem><ToggleLink href="#help">Help</ToggleLink></ToggleItem>
           <ToggleItem>
             <ToggleLink as="button" onClick={() => alert('hi')}>Click me</ToggleLink>

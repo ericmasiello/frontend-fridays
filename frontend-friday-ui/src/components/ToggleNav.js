@@ -137,7 +137,7 @@ export function ToggleList(props) {
   const { children } = props;
 
   const style = {
-    display: open ? 'block' : 'none',
+    '--toggle-list-display': open ? 'block' : 'none',
   };
 
   return (
@@ -156,7 +156,7 @@ export function ToggleList(props) {
 export function ToggleItem(props) {
   const { as: Component = 'li', ...rest } = props;
   return (
-    <Component className={styles['toggle-item']} {...rest} />
+    <Component {...rest} />
   );
 }
 

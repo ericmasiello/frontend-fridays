@@ -1,3 +1,5 @@
+$desktop-breakpoint: 43.75rem;
+
 .toggle-nav {
   display: inline-flex;
   flex-direction: column;
@@ -26,6 +28,10 @@
       ),
       #fff;
   }
+
+  @media (min-width: $desktop-breakpoint) {
+    display: none;
+  }
 }
 
 .toggle-button::after {
@@ -44,6 +50,7 @@
 }
 
 .toggle-list {
+  display: var(--toggle-list-display, none);
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -65,22 +72,46 @@
     height: 1px;
     background-color: #c8cbcc;
   }
+
+  @media (min-width: $desktop-breakpoint) {
+    display: flex;
+    position: static;
+    border: none;
+    background-color: transparent;
+
+    &::before {
+      content: none;
+    }
+  }
 }
 
 .toggle-list-wrapper {
   position: relative;
 }
 
-.toggle-item {
-  padding: 0.75rem 1rem;
-}
-
 .toggle-link {
   color: #1061e3;
   line-height: 1.5;
   text-decoration: none;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: block;
+  // handles case when toggle-link is rendered as a button
+  font-family: inherit;
+  font-size: inherit;
 
   &:hover {
     text-decoration: underline;
+  }
+
+  @media (min-width: $desktop-breakpoint) {
+
+    padding-bottom: 1.625rem;
+
+    &[aria-current="true"] {
+      border-bottom: 2px #1061e3 solid;
+    }
   }
 }
