@@ -5,31 +5,9 @@
   "author": "ericmasiello",
   "license": "SEE LICENSE IN LICENSE.md",
   "repository": "ericmasiello/frontend-friday-ui",
-  "files": [
-    "dist"
-  ],
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "jsnext:main": "dist/index.es.js",
-  "sideEffects": [
-    "*.scss",
-    "*.css"
-  ],
-  "engines": {
-    "node": "12.10.0",
-    "npm": "6.10.3"
-  },
   "scripts": {
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages"
+    "storybook": "start-storybook"
   },
-  "browserslist": [
-    "chrome >= 43",
-    "firefox >= 45",
-    "ie >= 11",
-    "safari >= 6"
-  ],
   "peerDependencies": {
     "prop-types": "^15.7.2",
     "react": "^16.8.0",
@@ -50,6 +28,7 @@
     "@storybook/addons": "^5.3.17",
     "@storybook/react": "^5.3.17",
     "@storybook/storybook-deployer": "^2.8.3",
+    "babel-loader": "^8.1.0",
     "babel-preset-react-app": "^9.1.2",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
