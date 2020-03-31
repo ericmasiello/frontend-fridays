@@ -18,3 +18,20 @@
     - main/module/jsnext:main
     - sideEffects
     - files (for setting dist)
+
+
+# Cheat Sheet
+
+## Babel
+
+### Handling CSS
+- `babel-plugin-transform-require-ignore` + `node-sass` (demo why this isn't a viable solution)
+- `babel-plugin-css-modules-transform`
+
+### React Optimizations
+- `@babel/plugin-transform-react-display-name`
+- `babel-plugin-transform-react-remove-prop-types`
+
+### JS Optimizations
+- `@babel/preset-modules`
+- `@babel/plugin-transform-runtime`
