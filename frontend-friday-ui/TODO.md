@@ -5,11 +5,12 @@
   - Remove dependencies
   - Remove all deps for Jest
 2. Implement a monorepo moving the example and front-end-friday-ui into it
-3. Dev Tooling
+3. Add a Demo App that can import our project using `create-react-app`
+4. Dev Tooling
   - prettier, pretty-quick with husky
   - eslint
   - stylelint
-3. Library Tooling
+5. Library Tooling
   - Build Javascript bundles
   - What should the output be? cjs/esm?
   - Build CSS
