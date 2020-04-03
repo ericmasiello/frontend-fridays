@@ -13,9 +13,9 @@ npm install --save frontend-friday-ui
 ## Usage
 
 ```jsx
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import MyComponent from "frontend-friday-ui";
+import MyComponent from 'frontend-friday-ui';
 
 class Example extends Component {
   render() {

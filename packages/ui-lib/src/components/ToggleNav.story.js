@@ -1,15 +1,7 @@
-import React from "react";
-import { storiesOf } from "@storybook/react";
-import { withKnobs } from "@storybook/addon-knobs";
-import {
-  ToggleNav,
-  ToggleButton,
-  ToggleList,
-  ToggleItem,
-  ToggleLink,
-  ToggleProvider,
-  useToggleNav,
-} from "./ToggleNav";
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { withKnobs } from '@storybook/addon-knobs';
+import { ToggleNav, ToggleButton, ToggleList, ToggleItem, ToggleLink, ToggleProvider, useToggleNav } from './ToggleNav';
 
 function PropGetterDemo() {
   const { open, buttonProps, itemProps } = useToggleNav({
@@ -25,10 +17,10 @@ function PropGetterDemo() {
       <button
         {...buttonProps({
           onClick() {
-            console.log("Custom buttonProps onClick!");
+            console.log('Custom buttonProps onClick!');
           },
-          className: "foo",
-          "data-rebecca": "rebecca",
+          className: 'foo',
+          'data-rebecca': 'rebecca',
         })}
       >
         Click me!
@@ -38,7 +30,7 @@ function PropGetterDemo() {
           <li>
             <button
               {...itemProps({
-                onClick: () => console.log("custom!"),
+                onClick: () => console.log('custom!'),
               })}
             >
               First item
@@ -53,9 +45,9 @@ function PropGetterDemo() {
   );
 }
 
-storiesOf("ToggleNav", module)
+storiesOf('ToggleNav', module)
   .addDecorator(withKnobs)
-  .add("default", () => (
+  .add('default', () => (
     <div>
       <ToggleNav>
         <ToggleButton className="foo" data-test="something">
@@ -74,7 +66,7 @@ storiesOf("ToggleNav", module)
             <ToggleLink href="#help">Help</ToggleLink>
           </ToggleItem>
           <ToggleItem>
-            <ToggleLink as="button" onClick={() => alert("hi")}>
+            <ToggleLink as="button" onClick={() => alert('hi')}>
               Click me
             </ToggleLink>
           </ToggleItem>
@@ -83,7 +75,7 @@ storiesOf("ToggleNav", module)
       <p>I should be covered up when the toggle list is visible</p>
     </div>
   ))
-  .add("prop getters", () => (
+  .add('prop getters', () => (
     <ToggleProvider>
       <PropGetterDemo />
     </ToggleProvider>
