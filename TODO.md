@@ -26,7 +26,13 @@
     extends: 'react-app',
   };
   ```
+  ```
+  "lint:script": "eslint src/ --cache"
+  ```
 - stylelint: `stylelint stylelint-config-ericmasiello styelint-config-css-modules`
+  ```
+  "lint:style": "stylelint 'src/**/*.{scss,css}'"
+  ```
 
 5. Library Tooling
 

@@ -5,7 +5,9 @@
   "author": "ericmasiello",
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
-    "storybook": "start-storybook"
+    "storybook": "start-storybook",
+    "lint": "eslint src/ --cache",
+    "lint:style": "stylelint 'src/**/*.{scss,css}'"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",

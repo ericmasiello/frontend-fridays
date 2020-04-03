@@ -4,6 +4,8 @@
     "packages/*"
   ],
   "scripts": {
+    "lint": "yarn workspace ui-lib lint && yarn workspace demo lint",
+    "lint:style": "yarn workspace ui-lib lint:style",
     "format": "pretty-quick"
   },
   "husky": {
