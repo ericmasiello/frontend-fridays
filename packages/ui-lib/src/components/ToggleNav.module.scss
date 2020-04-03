@@ -81,6 +81,7 @@ $desktop-breakpoint: 43.75rem;
 
 .toggle-list-wrapper {
   position: relative;
+  z-index: 1;
 }
 
 .toggle-link {
