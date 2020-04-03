@@ -51,6 +51,13 @@
 
 ### Handling CSS
 
+```
+"build": "yarn build:esm; yarn build:cjs",
+"build:esm": "BABEL_ENV=esm babel src --out-dir dist/esm --ignore 'src/**/*.test.js','src/**/*.story.js'",
+"postbuild:esm": "cp src/components/*.module.scss dist/esm/components; cp -r src/images dist/esm/",
+"build:cjs": "BABEL_ENV=cjs babel src --out-dir dist/cjs --ignore 'src/**/*.test.js','src/**/*.story.js'",
+```
+
 - `babel-plugin-transform-require-ignore` + `node-sass` (demo why this isn't a viable solution)
 - `babel-plugin-css-modules-transform`
 
@@ -63,3 +70,50 @@
 
 - `@babel/preset-modules`
 - `@babel/plugin-transform-runtime`
+
+
+```
+module.exports = {
+  presets: ['@babel/preset-react'],
+  plugins: [
+    [
+      'transform-react-remove-prop-types',
+      {
+        mode: 'unsafe-wrap',
+      },
+    ],
+  ],
+  env: {
+    esm: {
+      presets: ['@babel/preset-modules'],
+    },
+    cjs: {
+      presets: ['@babel/preset-env'],
+      plugins: [
+        [
+          'css-modules-transform',
+          {
+            preprocessCss: './build-scripts/sass.js',
+            extensions: ['.css', '.scss'],
+            camelCase: true,
+            extractCss: './dist/main.css',
+          },
+        ],
+      ],
+    },
+  },
+};
+```
+const sass = require('node-sass');
+
+module.exports = function processSass(data, filename) {
+  return sass
+    .renderSync({
+      data: data,
+      file: filename,
+      outputStyle: 'compressed',
+    })
+    .css.toString('utf8');
+};
+
+```

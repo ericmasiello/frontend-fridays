@@ -4,7 +4,14 @@
   "description": "",
   "author": "ericmasiello",
   "license": "SEE LICENSE IN LICENSE.md",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "yarn build:esm; yarn build:cjs",
+    "build:esm": "BABEL_ENV=esm babel src --out-dir dist/esm --ignore 'src/**/*.test.js','src/**/*.story.js'",
+    "postbuild:esm": "cp src/components/*.module.scss dist/esm/components; cp -r src/images dist/esm/",
+    "build:cjs": "BABEL_ENV=cjs babel src --out-dir dist/cjs --ignore 'src/**/*.test.js','src/**/*.story.js'",
     "storybook": "start-storybook",
     "lint": "eslint src/ --cache",
     "lint:style": "stylelint 'src/**/*.{scss,css}'"
@@ -18,8 +25,10 @@
     "classnames": "^2.2.6"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
+    "@babel/preset-modules": "^0.1.3",
     "@babel/preset-react": "^7.9.4",
     "@storybook/addon-actions": "^5.3.17",
     "@storybook/addon-info": "^5.3.17",
@@ -30,11 +39,14 @@
     "@storybook/react": "^5.3.17",
     "@storybook/storybook-deployer": "^2.8.3",
     "babel-loader": "^8.1.0",
+    "babel-plugin-css-modules-transform": "^1.6.2",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-preset-react-app": "^9.1.2",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.1"
+    "react-scripts": "^3.4.1",
+    "rimraf": "^3.0.2"
   }
 }
