@@ -6,6 +6,11 @@
   "scripts": {
     "format": "pretty-quick"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "devDependencies": {
     "husky": "^4.2.3",
     "prettier": "^2.0.4",
