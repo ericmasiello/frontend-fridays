@@ -4,7 +4,6 @@
   "description": "",
   "author": "ericmasiello",
   "license": "SEE LICENSE IN LICENSE.md",
-  "repository": "ericmasiello/frontend-friday-ui",
   "scripts": {
     "storybook": "start-storybook",
     "lint": "eslint src/ --cache",

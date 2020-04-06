@@ -1,13 +1,9 @@
-# frontend-friday-ui
-
->
-
-[![NPM](https://img.shields.io/npm/v/frontend-friday-ui.svg)](https://www.npmjs.com/package/frontend-friday-ui) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+# ui-lib
 
 ## Install
 
 ```bash
-npm install --save frontend-friday-ui
+npm install --save ui-lib
 ```
 
 ## Usage
@@ -15,15 +11,11 @@ npm install --save frontend-friday-ui
 ```jsx
 import React, { Component } from 'react';
 
-import MyComponent from 'frontend-friday-ui';
+import { ToggleNav } from 'ui-lib';
 
 class Example extends Component {
   render() {
-    return <MyComponent />;
+    return <ToggleNav />;
   }
 }
 ```
-
-## License
-
-SEE LICENSE IN LICENSE.md © [ericmasiello](https://github.com/ericmasiello)
