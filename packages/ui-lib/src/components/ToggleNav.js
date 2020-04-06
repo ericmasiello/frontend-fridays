@@ -11,8 +11,8 @@ const callFnsInOrder = (...fns) => {
       }
       fn(event);
     });
-  }
-}
+  };
+};
 
 export const ToggleContext = createContext({
   open: false,
@@ -22,11 +22,9 @@ export const ToggleContext = createContext({
 
 export function useToggleNav(config) {
   const { open, setOpen, buttonRef, autoClose = true } = useContext(ToggleContext);
-  let { enableAutoClose  } = config || {};
+  let { enableAutoClose } = config || {};
 
-  enableAutoClose = typeof enableAutoClose === 'boolean'
-    ? enableAutoClose
-    : autoClose;
+  enableAutoClose = typeof enableAutoClose === 'boolean' ? enableAutoClose : autoClose;
 
   const handleClose = useCallback(() => {
     setOpen(false);
@@ -38,59 +36,61 @@ export function useToggleNav(config) {
     }
     window.addEventListener('click', handleClose);
     return () => {
-      window.removeEventListener('click', handleClose)
-    }
+      window.removeEventListener('click', handleClose);
+    };
   }, [handleClose, enableAutoClose]);
 
   // Is this memoization necessary?
   // I would likely want to test this in a few scenerios before
   // blindly adding memoziation code
-  const toggleNavData = useMemo(() => ({
-    open,
-    setOpen,
-    buttonProps: (customProps) => {
-      const { onClick, ...rest } = customProps || {};
-      return {
-        'aria-expanded': open,
-        ref: buttonRef,
-        onClick: callFnsInOrder((event) => {
-          event.stopPropagation();
-          setOpen(!open);
-        }, onClick),
-        ...rest
-      };
-    },
-    itemProps: (customProps) => {
-      const { onClick, ...rest } = customProps || {};
-      return {
-        onClick: callFnsInOrder(() => {
-          setOpen(false);
-          buttonRef.current.focus();
-        }, onClick),
-        ...rest,
-      }
-    },
-  }), [buttonRef, open, setOpen])
+  const toggleNavData = useMemo(
+    () => ({
+      open,
+      setOpen,
+      buttonProps: (customProps) => {
+        const { onClick, ...rest } = customProps || {};
+        return {
+          'aria-expanded': open,
+          ref: buttonRef,
+          onClick: callFnsInOrder((event) => {
+            event.stopPropagation();
+            setOpen(!open);
+          }, onClick),
+          ...rest,
+        };
+      },
+      itemProps: (customProps) => {
+        const { onClick, ...rest } = customProps || {};
+        return {
+          onClick: callFnsInOrder(() => {
+            setOpen(false);
+            buttonRef.current.focus();
+          }, onClick),
+          ...rest,
+        };
+      },
+    }),
+    [buttonRef, open, setOpen]
+  );
 
   return toggleNavData;
 }
 
 export function ToggleProvider(props) {
   const { autoClose, children } = props;
-  const [ open, setOpen ] = useState(false);
+  const [open, setOpen] = useState(false);
   const buttonRef = useRef();
-  const value = useMemo(() => ({
-    open,
-    setOpen,
-    buttonRef,
-    autoClose
-  }), [open, autoClose]);
+  const value = useMemo(
+    () => ({
+      open,
+      setOpen,
+      buttonRef,
+      autoClose,
+    }),
+    [open, autoClose]
+  );
 
-  return (
-    <ToggleContext.Provider value={value}>
-      {children}
-    </ToggleContext.Provider>
-  )
+  return <ToggleContext.Provider value={value}>{children}</ToggleContext.Provider>;
 }
 
 // ToggleContext.Provider
@@ -98,28 +98,28 @@ export function ToggleProvider(props) {
 
 export function ToggleNav(props) {
   const { children, as: Component = 'div', className, autoClose = true, ...rest } = props;
-  const classes = classNames(styles['toggle-nav'], className)
+  const classes = classNames(styles['toggle-nav'], className);
 
   return (
     <ToggleProvider autoClose={autoClose}>
-      <Component
-        data-test="ToggleNavComponent"
-        className={classes}
-        {...rest}
-      >
+      <Component data-test="ToggleNavComponent" className={classes} {...rest}>
         {children}
       </Component>
     </ToggleProvider>
-  )
+  );
 }
 
 export function ToggleButton(props) {
   const { open, buttonProps } = useToggleNav();
   const { className, ...rest } = props;
 
-  const classes = classNames(styles['toggle-button'], {
-    [styles['toggle-button--open']]: open
-  }, className);
+  const classes = classNames(
+    styles['toggle-button'],
+    {
+      [styles['toggle-button--open']]: open,
+    },
+    className
+  );
 
   return (
     <button
@@ -142,11 +142,7 @@ export function ToggleList(props) {
 
   return (
     <div className={styles['toggle-list-wrapper']}>
-      <ul
-        data-test="ToggleList-ul"
-        className={styles['toggle-list']}
-        style={style}
-      >
+      <ul data-test="ToggleList-ul" className={styles['toggle-list']} style={style}>
         {children}
       </ul>
     </div>
@@ -155,14 +151,12 @@ export function ToggleList(props) {
 
 export function ToggleItem(props) {
   const { as: Component = 'li', ...rest } = props;
-  return (
-    <Component {...rest} />
-  );
+  return <Component {...rest} />;
 }
 
 ToggleItem.propTypes = {
   as: PropTypes.elementType,
-}
+};
 
 export function ToggleLink(props) {
   const { itemProps } = useToggleNav({
@@ -182,4 +176,4 @@ export function ToggleLink(props) {
 
 ToggleLink.propTypes = {
   as: PropTypes.elementType,
-}
+};

@@ -20,13 +20,7 @@ $desktop-breakpoint: 43.75rem;
 
   &:hover,
   &:focus {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.025) 0,
-        rgba(0, 17, 26, 0.05) 100%
-      ),
-      #fff;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0, rgba(0, 17, 26, 0.05) 100%), #fff;
   }
 
   @media (min-width: $desktop-breakpoint) {
@@ -107,10 +101,9 @@ $desktop-breakpoint: 43.75rem;
   }
 
   @media (min-width: $desktop-breakpoint) {
-
     padding-bottom: 1.625rem;
 
-    &[aria-current="true"] {
+    &[aria-current='true'] {
       border-bottom: 2px #1061e3 solid;
     }
   }

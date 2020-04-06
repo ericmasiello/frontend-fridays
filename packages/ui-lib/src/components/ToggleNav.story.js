@@ -14,25 +14,31 @@ function PropGetterDemo() {
   */
   return (
     <div>
-      <button {...buttonProps({
-        onClick(){
-          console.log('Custom buttonProps onClick!')
-        },
-        className: 'foo',
-        'data-rebecca': 'rebecca'
-      })}>Click me!</button>
+      <button
+        {...buttonProps({
+          onClick() {
+            console.log('Custom buttonProps onClick!');
+          },
+          className: 'foo',
+          'data-rebecca': 'rebecca',
+        })}
+      >
+        Click me!
+      </button>
       {open && (
         <ul>
           <li>
             <button
               {...itemProps({
-                onClick: () => console.log('custom!')
+                onClick: () => console.log('custom!'),
               })}
             >
               First item
             </button>
           </li>
-          <li><button {...itemProps()}>Second item</button></li>
+          <li>
+            <button {...itemProps()}>Second item</button>
+          </li>
         </ul>
       )}
     </div>
@@ -44,13 +50,25 @@ storiesOf('ToggleNav', module)
   .add('default', () => (
     <div>
       <ToggleNav>
-        <ToggleButton className="foo" data-test="something">Home</ToggleButton>
+        <ToggleButton className="foo" data-test="something">
+          Home
+        </ToggleButton>
         <ToggleList>
-          <ToggleItem><ToggleLink href="#">Home</ToggleLink></ToggleItem>
-          <ToggleItem><ToggleLink href="#settings" aria-current={true}>Settings</ToggleLink></ToggleItem>
-          <ToggleItem><ToggleLink href="#help">Help</ToggleLink></ToggleItem>
           <ToggleItem>
-            <ToggleLink as="button" onClick={() => alert('hi')}>Click me</ToggleLink>
+            <ToggleLink href="#">Home</ToggleLink>
+          </ToggleItem>
+          <ToggleItem>
+            <ToggleLink href="#settings" aria-current={true}>
+              Settings
+            </ToggleLink>
+          </ToggleItem>
+          <ToggleItem>
+            <ToggleLink href="#help">Help</ToggleLink>
+          </ToggleItem>
+          <ToggleItem>
+            <ToggleLink as="button" onClick={() => alert('hi')}>
+              Click me
+            </ToggleLink>
           </ToggleItem>
         </ToggleList>
       </ToggleNav>

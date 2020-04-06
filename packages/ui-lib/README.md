@@ -1,6 +1,6 @@
 # frontend-friday-ui
 
-> 
+>
 
 [![NPM](https://img.shields.io/npm/v/frontend-friday-ui.svg)](https://www.npmjs.com/package/frontend-friday-ui) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -13,15 +13,13 @@ npm install --save frontend-friday-ui
 ## Usage
 
 ```jsx
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import MyComponent from 'frontend-friday-ui'
+import MyComponent from 'frontend-friday-ui';
 
 class Example extends Component {
-  render () {
-    return (
-      <MyComponent />
-    )
+  render() {
+    return <MyComponent />;
   }
 }
 ```
