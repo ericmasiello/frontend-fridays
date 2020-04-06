@@ -7,7 +7,8 @@
   "repository": "ericmasiello/frontend-friday-ui",
   "scripts": {
     "storybook": "start-storybook",
-    "lint": "eslint src/ --cache"
+    "lint": "eslint src/ --cache",
+    "lint:style": "stylelint 'src/**/*.{scss,css}'"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",

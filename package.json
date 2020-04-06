@@ -4,7 +4,8 @@
     "packages/*"
   ],
   "scripts": {
-    "lint": "yarn workspace ui-lib lint; yarn workspace demo lint",
+    "lint": "yarn workspaces run lint",
+    "lint:style": "yarn workspaces run lint:style",
     "format": "pretty-quick"
   },
   "husky": {
@@ -25,6 +26,9 @@
     "eslint-plugin-react-hooks": "2.x",
     "husky": "^4.2.3",
     "prettier": "^2.0.4",
-    "pretty-quick": "^2.0.1"
+    "pretty-quick": "^2.0.1",
+    "stylelint": "^13.3.0",
+    "stylelint-config-css-modules": "^2.2.0",
+    "stylelint-config-ericmasiello": "^4.0.0"
   }
 }
