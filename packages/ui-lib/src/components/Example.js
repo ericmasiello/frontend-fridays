@@ -9,4 +9,9 @@ function Example(props) {
   return <Component className={classes} {...rest} />;
 }
 
+// FIXME: Including static properties is breaking tree shaking
+// Example.defaultProps = {
+//   className: 'i-am-example',
+// }
+
 export default Example;
