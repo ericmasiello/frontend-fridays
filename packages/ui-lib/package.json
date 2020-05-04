@@ -9,6 +9,7 @@
   "files": [
     "dist"
   ],
+  "sideEffects": false,
   "scripts": {
     "storybook": "start-storybook",
     "build": "yarn build:cjs && yarn build:esm",

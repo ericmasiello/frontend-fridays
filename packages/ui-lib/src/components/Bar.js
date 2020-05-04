@@ -6,14 +6,13 @@ function Bar(props) {
   return <Component className={className} {...rest} />;
 }
 
-// FIXME: Including static properties is breaking tree shaking
-// Bar.defaultProps = {
-//   as: 'div',
-//   className: 'i-am-foo',
-// }
+Bar.defaultProps = {
+  as: 'div',
+  className: 'i-am-bar',
+};
 
-// Bar.propTypes = {
-//   as: PropTypes.elementType,
-// }
+Bar.propTypes = {
+  as: PropTypes.elementType,
+};
 
 export default Bar;
